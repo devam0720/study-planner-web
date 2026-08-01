@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyLoop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="auth" id="authView">
+        <section class="auth-visual">
+            <div class="pill">Gamified Student Productivity Dashboard</div>
+            <div>
+                <h1>Study.<br>Finish tasks.<br>Focus. Level up.</h1>
+                <p>The product is organized around one loop: plan your day, complete the work, run focus sessions, and
+                    earn XP. Everything else stays out of the way.</p>
+            </div>
+            <div class="auth-points">
+                <div class="auth-point">
+                    <strong>One clear flow</strong>
+                    <span class="muted">Dashboard, tasks, focus, planning, progress, settings.</span>
+                </div>
+                <div class="auth-point">
+                    <strong>Real progress</strong>
+                    <span class="muted">XP, levels, streaks, achievements, and completed sessions stay visible.</span>
+                </div>
+            </div>
+        </section>
+
+        <aside class="auth-card">
+            <div class="brand brand-spaced">
+                <div class="brand-mark">S</div>
+                <div>
+                    <div class="brand-name">StudyLoop</div>
+                    <div class="brand-subtitle">Focused, minimal, student-first.</div>
+                </div>
+            </div>
+
+            <div class="auth-tabs" aria-label="Authentication tabs">
+                <button class="auth-tab active" data-auth-tab="login" type="button">Login</button>
+                <button class="auth-tab" data-auth-tab="signup" type="button">Signup</button>
+                <button class="auth-tab" data-auth-tab="forgot" type="button">Forgot</button>
+            </div>
+
+            <div class="auth-panels">
+                <form id="loginPanel" class="auth-panel">
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="loginEmail">Email</label>
+                            <input id="loginEmail" type="email" autocomplete="email" required
+                                placeholder="you@example.com">
+                        </div>
+                        <div class="field">
+                            <label for="loginPassword">Password</label>
+                            <input id="loginPassword" type="password" autocomplete="current-password" required
+                                placeholder="Enter password">
+                        </div>
+                        <button class="button" type="submit">Login</button>
+                        <button class="button-ghost" id="demoLoginBtn" type="button">Use demo account</button>
+                    </div>
+                </form>
+
+                <form id="signupPanel" class="auth-panel hidden">
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="signupName">Display name</label>
+                            <input id="signupName" type="text" autocomplete="name" placeholder="Your name" required>
+                        </div>
+                        <div class="field">
+                            <label for="signupEmail">Email</label>
+                            <input id="signupEmail" type="email" autocomplete="email" placeholder="you@example.com"
+                                required>
+                        </div>
+                        <div class="field">
+                            <label for="signupPassword">Password</label>
+                            <input id="signupPassword" type="password" autocomplete="new-password"
+                                placeholder="Create a strong password" required>
+                        </div>
+                        <button class="button" type="submit">Create account</button>
+                    </div>
+                </form>
+
+                <form id="forgotPanel" class="auth-panel hidden">
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="forgotEmail">Email</label>
+                            <input id="forgotEmail" type="email" placeholder="you@example.com" required>
+                        </div>
+                        <button class="button-secondary" type="submit">Send reset link</button>
+                    </div>
+                </form>
+            </div>
+        </aside>
+    </div>
+
+    <div class="app-shell hidden" id="appView">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark">S</div>
+                <div>
+                    <div class="brand-name">StudyLoop</div>
+                    <div class="brand-subtitle">Study system</div>
+                </div>
+            </div>
+
+            <section class="profile-card">
+                <div class="profile-top">
+                    <div class="avatar" id="sidebarAvatar">D</div>
+                    <div>
+                        <div class="profile-name" id="sidebarName">Student</div>
+                        <div class="profile-email" id="sidebarEmail">you@example.com</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="level-row"><span>Level <strong id="levelLabel">1</strong></span><span><strong
+                                id="xpLabel">0</strong> XP</span></div>
+                    <div class="xp-bar" aria-label="XP progress"><span id="xpBar"></span></div>
+                </div>
+            </section>
+
+            <nav class="nav" id="navItems">
+                <button class="nav-btn active" data-view="dashboardView" type="button"><span class="nav-ico">⌂</span>
+                    Dashboard</button>
+                <button class="nav-btn" data-view="tasksView" type="button"><span class="nav-ico">✓</span>
+                    Tasks</button>
+                <button class="nav-btn" data-view="focusView" type="button"><span class="nav-ico">◔</span>
+                    Focus</button>
+                <button class="nav-btn" data-view="plannerView" type="button"><span class="nav-ico">▦</span>
+                    Planner</button>
+                <button class="nav-btn" data-view="achievementsView" type="button"><span class="nav-ico">★</span>
+                    Achievements</button>
+                <button class="nav-btn" data-view="settingsView" type="button"><span class="nav-ico">⚙</span>
+                    Settings</button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="button-secondary" id="sidebarThemeBtn" type="button">Toggle theme</button>
+                <button class="button-ghost" id="logoutBtn" type="button">Logout</button>
+            </div>
+        </aside>
+
+        <main class="main">
+            <div class="header-shell">
+                <div class="header-bar">
+                    <div class="header-brand">
+                        <small>StudyLoop</small>
+                        <h1 id="pageTitle">Dashboard</h1>
+                        <p id="pageSubtitle">Your personal study companion.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="button-secondary" id="themeBtn" type="button">Light / Dark</button>
+                        <button class="button" id="openTaskModalBtn" type="button">New task</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workspace">
+                <section id="dashboardView" class="view active">
+                    <div class="hero">
+                        <div class="hero-top">
+                            <div class="hero-copy">
+                                <div class="status-chip" id="greetingChip">Good evening, Student 👋</div>
+                                <h2>Today's flow is simple: choose work, focus, earn XP.</h2>
+                                <p>Start with the next task, run a focus session, and let the product keep your momentum
+                                    visible without extra clutter.</p>
+                            </div>
+                            <button class="button" type="button" id="startFocusHeroBtn">Start focus session</button>
+                        </div>
+
+                        <div class="stat-grid">
+                            <article class="stat">
+                                <div class="stat-head">
+                                    <div class="stat-icon">✓</div><label>Today's Tasks</label>
+                                </div>
+                                <strong id="statTasks">0</strong>
+                                <span>Open work items</span>
+                            </article>
+                            <article class="stat">
+                                <div class="stat-head">
+                                    <div class="stat-icon">⏱</div><label>Focus Time Today</label>
+                                </div>
+                                <strong id="statFocus">0m</strong>
+                                <span>Tracked study minutes</span>
+                            </article>
+                            <article class="stat">
+                                <div class="stat-head">
+                                    <div class="stat-icon">🔥</div><label>Current Streak</label>
+                                </div>
+                                <strong id="statStreak">0</strong>
+                                <span>Days in a row</span>
+                            </article>
+                            <article class="stat">
+                                <div class="stat-head">
+                                    <div class="stat-icon">⭐</div><label>XP Earned</label>
+                                </div>
+                                <strong id="statXp">0</strong>
+                                <span>Level progress</span>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="content-grid">
+                        <div>
+                            <section class="section-card">
+                                <div class="section-title">
+                                    <div>
+                                        <h3>Today's Schedule</h3>
+                                        <p>A timeline view of the blocks that shape the day.</p>
+                                    </div>
+                                    <button class="chip-btn" data-switch-view="plannerView" type="button">Edit
+                                        blocks</button>
+                                </div>
+                                <div class="timeline" id="todayTimeline"></div>
+                            </section>
+
+                            <section class="section-card">
+                                <div class="section-title">
+                                    <div>
+                                        <h3>Upcoming Tasks</h3>
+                                        <p>Clear countdowns keep priorities visible.</p>
+                                    </div>
+                                    <button class="chip-btn" data-switch-view="tasksView" type="button">Open
+                                        tasks</button>
+                                </div>
+                                <div class="stack" id="upcomingTasks"></div>
+                            </section>
+                        </div>
+
+                        <div>
+                            <section class="section-card">
+                                <div class="section-title">
+                                    <div>
+                                        <h3>Quick Actions</h3>
+                                        <p>Three actions that support the core loop.</p>
+                                    </div>
+                                </div>
+                                <div class="stack">
+                                    <button class="button-secondary" type="button" id="quickAddTaskBtn">New
+                                        task</button>
+                                    <button class="button-secondary" type="button" id="quickStartFocusBtn">Start
+                                        focus</button>
+                                    <button class="button-secondary" type="button" data-switch-view="plannerView">Plan
+                                        day</button>
+                                </div>
+                            </section>
+
+                            <section class="section-card">
+                                <div class="section-title">
+                                    <div>
+                                        <h3>Progress Ring</h3>
+                                        <p>XP toward the next level stays visible.</p>
+                                    </div>
+                                </div>
+                                <div class="progress-card">
+                                    <div class="progress-value" id="progressPercent">0%</div>
+                                    <div class="progress-sub" id="progressText">0 / 100 XP to Level 2</div>
+                                    <div class="xp-bar"><span id="dashboardXpBar"></span></div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="tasksView" class="view">
+                    <div class="section-card">
+                        <div class="section-title">
+                            <div>
+                                <h3>Tasks</h3>
+                                <p>Todoist-style cards with priority, category, deadline, and estimated time.</p>
+                            </div>
+                            <button class="button" type="button" id="tasksAddBtn">Add task</button>
+                        </div>
+
+                        <div class="tasks-toolbar">
+                            <div class="field">
+                                <label for="taskSearch">Search</label>
+                                <input id="taskSearch" type="search" placeholder="Search tasks">
+                            </div>
+                            <div class="field">
+                                <label for="taskFilter">Filter</label>
+                                <select id="taskFilter">
+                                    <option value="all">All categories</option>
+                                    <option value="Study">Study</option>
+                                    <option value="Assignment">Assignment</option>
+                                    <option value="Exam">Exam</option>
+                                    <option value="Project">Project</option>
+                                    <option value="Personal">Personal</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="taskSort">Sort</label>
+                                <select id="taskSort">
+                                    <option value="due">Due date</option>
+                                    <option value="priority">Priority</option>
+                                    <option value="time">Estimated time</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="taskStatusFilter">Status</label>
+                                <select id="taskStatusFilter">
+                                    <option value="all">All</option>
+                                    <option value="open">Open</option>
+                                    <option value="done">Completed</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="stack" id="taskList"></div>
+                    </div>
+                </section>
+
+                <section id="focusView" class="view">
+                    <div class="section-card timer-shell">
+                        <div class="section-title focus-title">
+                            <div>
+                                <h3>Focus</h3>
+                                <p>Large timer, clear controls, and a real progression system.</p>
+                            </div>
+                            <div class="status-chip" id="focusModeLabel">Focus session</div>
+                        </div>
+
+                        <div class="timer-ring" id="timerRing">
+                            <div class="timer-inner">
+                                <div class="timer-value" id="timerDisplay">25:00</div>
+                                <div class="muted" id="currentSessionLabel">Ready to focus</div>
+                            </div>
+                        </div>
+
+                        <div class="session-stage" id="forestStages"></div>
+
+                        <div class="current-tree-display" id="currentTreeDisplay">🌱 Seed planted</div>
+
+                        <div class="helper-row">
+                            <div class="small-muted">Completed sessions: <strong id="completedSessions">0</strong></div>
+                            <div class="small-muted">Today focus: <strong id="todayFocusMinutes">0m</strong></div>
+                        </div>
+
+                        <div class="form-grid two narrow-controls">
+                            <div class="field">
+                                <label for="focusMinutesInput">Session length</label>
+                                <input id="focusMinutesInput" type="number" min="5" max="120" value="25">
+                            </div>
+                            <div class="field">
+                                <label for="breakMinutesInput">Break length</label>
+                                <input id="breakMinutesInput" type="number" min="1" max="30" value="5">
+                            </div>
+                        </div>
+
+                        <div class="row-actions">
+                            <button class="button" type="button" id="focusStartBtn">Start</button>
+                            <button class="button-secondary" type="button" id="focusPauseBtn">Pause</button>
+                            <button class="button-secondary" type="button" id="focusResetBtn">Reset</button>
+                            <button class="button-ghost" type="button" id="focusSkipBtn">Skip break</button>
+                        </div>
+
+                        <section class="section-card full-width-card">
+                            <div class="section-title">
+                                <div>
+                                    <h3>Forest progression</h3>
+                                    <p>Every completed session grows the tree. Quitting early wilts it.</p>
+                                </div>
+                            </div>
+                            <div class="forest-progress">
+                                <div class="forest-track" id="forestTrack"></div>
+                                <div class="status-chip" id="forestStatus">Seed planted</div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section id="plannerView" class="view">
+                    <div class="section-card planner-header-card">
+                        <div class="section-title">
+                            <div>
+                                <h3>Planner</h3>
+                                <p>Today's Schedule · Friday, 1 August</p>
+                            </div>
+                            <button class="button" type="button" id="plannerQuickAddBtn">+ Add Block</button>
+                        </div>
+                    </div>
+
+                    <div class="planner-grid">
+                        <section class="section-card">
+                            <div class="section-title">
+                                <div>
+                                    <h3>Daily Planner</h3>
+                                    <p>Blocks are vertical like a calendar agenda and can be reordered.</p>
+                                </div>
+                            </div>
+                            <form id="plannerForm" class="form-grid">
+                                <div class="form-grid two">
+                                    <div class="field"><label for="plannerStart">Start time</label><input
+                                            id="plannerStart" type="time" required></div>
+                                    <div class="field"><label for="plannerEnd">End time</label><input id="plannerEnd"
+                                            type="time" required></div>
+                                </div>
+                                <div class="form-grid two">
+                                    <div class="field"><label for="plannerTask">Task</label><input id="plannerTask"
+                                            type="text" placeholder="Math revision" required></div>
+                                    <div class="field"><label for="plannerNotes">Notes</label><textarea
+                                            id="plannerNotes" placeholder="What should I remember?"></textarea></div>
+                                </div>
+                                <div class="row-actions">
+                                    <button class="button" type="submit">Add block</button>
+                                    <button class="button-secondary" type="button" id="plannerSummarizeBtn">Summarize
+                                        plan</button>
+                                </div>
+                            </form>
+                        </section>
+
+                        <section class="section-card">
+                            <div class="section-title">
+                                <div>
+                                    <h3>Today's blocks</h3>
+                                    <p>Drag order is simulated through move controls for a simple MVP.</p>
+                                </div>
+                            </div>
+                            <div class="stack" id="plannerBlocks"></div>
+                        </section>
+
+                        <section class="section-card planner-timetable">
+                            <div class="section-title">
+                                <div>
+                                    <h3>Timetable</h3>
+                                    <p>Editable weekly grid with time inputs and color-coded subjects.</p>
+                                </div>
+                                <button class="chip-btn" id="addTimetableRowBtn" type="button">Add row</button>
+                            </div>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>Mon</th>
+                                            <th>Tue</th>
+                                            <th>Wed</th>
+                                            <th>Thu</th>
+                                            <th>Fri</th>
+                                            <th>Sat</th>
+                                            <th>Sun</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="timetableBody"></tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section id="achievementsView" class="view">
+                    <div class="settings-grid">
+                        <section class="section-card">
+                            <div class="section-title">
+                                <div>
+                                    <h3>Achievements</h3>
+                                    <p>Locked achievements stay muted until the threshold is met.</p>
+                                </div>
+                            </div>
+                            <div class="achievements-grid" id="achievementList"></div>
+                        </section>
+
+                        <section class="section-card">
+                            <div class="section-title">
+                                <div>
+                                    <h3>Achievement ladder</h3>
+                                    <p>Every badge is based on focus hours.</p>
+                                </div>
+                            </div>
+                            <div class="small-muted">Unlock badges by building focus time. Locked badges stay grey until
+                                the threshold is reached.</div>
+                        </section>
+                    </div>
+                </section>
+
+                <section id="settingsView" class="view">
+                    <div class="settings-grid">
+                        <section class="section-card">
+                            <div class="section-title">
+                                <div>
+                                    <h3>Profile</h3>
+                                    <p>Update avatar, display name, and account details.</p>
+                                </div>
+                            </div>
+                            <form id="profileForm" class="form-grid">
+                                <div class="field">
+                                    <label for="profileAvatar">Avatar upload</label>
+                                    <input id="profileAvatar" type="file" accept="image/*">
+                                </div>
+                                <div class="form-grid two">
+                                    <div class="field"><label for="profileName">Display name</label><input
+                                            id="profileName" type="text" required></div>
+                                    <div class="field"><label for="profileEmail">Email</label><input id="profileEmail"
+                                            type="email" required></div>
+                                </div>
+                                <div class="row-actions">
+                                    <button class="button" type="submit">Save profile</button>
+                                </div>
+                            </form>
+                        </section>
+
+                        <section class="section-card">
+                            <div class="section-title">
+                                <div>
+                                    <h3>Preferences</h3>
+                                    <p>Light/dark mode, notifications, and session persistence live here.</p>
+                                </div>
+                            </div>
+                            <div class="toggle-row">
+                                <div><strong>Theme</strong>
+                                    <div class="small-muted">Switch between light and dark</div>
+                                </div><label class="switch"><input type="checkbox" aria-label="Theme"
+                                        id="themeSwitch"><span></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div><strong>Notifications</strong>
+                                    <div class="small-muted">Show toasts for success and reminders</div>
+                                </div><label class="switch"><input type="checkbox" aria-label="Notifications" id="notificationsSwitch"
+                                        checked><span></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div><strong>Protect route access</strong>
+                                    <div class="small-muted">Keep the app locked until login</div>
+                                </div><label class="switch"><input type="checkbox" aria-label="Route access protected" checked
+                                        disabled><span></span></label>
+                            </div>
+                            <div class="row-actions stack-gap">
+                                <button class="button-secondary" type="button" id="clearDemoBtn">Reset demo
+                                    data</button>
+                                <button class="button-ghost" type="button" id="deleteAccountBtn">Delete account</button>
+                            </div>
+                        </section>
+
+                        <section class="section-card full-span-card">
+                            <div class="section-title">
+                                <div>
+                                    <h3>Account security</h3>
+                                    <p>Local-only password change and sign-out controls for the MVP shell.</p>
+                                </div>
+                            </div>
+                            <div class="form-grid two">
+                                <div class="field"><label for="newPassword">New password</label><input id="newPassword"
+                                        type="password" placeholder="Enter a new password"></div>
+                                <div class="field"><label for="confirmPassword">Confirm password</label><input
+                                        id="confirmPassword" type="password" placeholder="Repeat password"></div>
+                            </div>
+                            <div class="helper-row">
+                                <button class="button-secondary" type="button" id="changePasswordBtn">Change
+                                    password</button>
+                                <button class="button-ghost" type="button" id="logoutFromSettingsBtn">Logout</button>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-backdrop" id="taskModalBackdrop" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+            <div class="modal-header">
+                <div>
+                    <h3 id="taskModalTitle">Add task</h3>
+                    <p class="small-muted">Create a task with the fields the flow actually uses.</p>
+                </div>
+                <button class="icon-btn" type="button" id="closeTaskModalBtn">✕</button>
+            </div>
+            <form id="taskForm" class="form-grid">
+                <div class="field"><label for="taskName">Task name</label><input id="taskName" type="text" required>
+                </div>
+                <div class="field"><label for="taskDescription">Description</label><textarea id="taskDescription"
+                        placeholder="What needs to be done?"></textarea></div>
+                <div class="form-grid three">
+                    <div class="field">
+                        <label for="taskPriority">Priority</label>
+                        <select id="taskPriority">
+                            <option>High</option>
+                            <option selected>Medium</option>
+                            <option>Low</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="taskCategory">Category</label>
+                        <select id="taskCategory">
+                            <option>Study</option>
+                            <option>Assignment</option>
+                            <option>Exam</option>
+                            <option>Project</option>
+                            <option>Personal</option>
+                        </select>
+                    </div>
+                    <div class="field"><label for="taskDeadline">Deadline</label><input id="taskDeadline"
+                            type="datetime-local" required></div>
+                </div>
+                <div class="form-grid three">
+                    <div class="field"><label for="taskDuration">Estimated duration</label><input id="taskDuration"
+                            type="text" placeholder="45 min"></div>
+                    <div class="field"><label for="taskRepeat">Repeat</label><select id="taskRepeat">
+                            <option>Never</option>
+                            <option>Daily</option>
+                            <option>Weekly</option>
+                        </select></div>
+                    <div class="field"><label for="taskReminder">Reminder</label><select id="taskReminder">
+                            <option>None</option>
+                            <option>10 minutes before</option>
+                            <option>1 hour before</option>
+                            <option>1 day before</option>
+                        </select></div>
+                </div>
+                <div class="row-actions">
+                    <button class="button" type="submit">Save task</button>
+                    <button class="button-ghost" type="button" id="modalCancelBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast-host" id="toastHost"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
