@@ -1,6 +1,6 @@
-# StudyLoop
+# TimeFlow
 
-StudyLoop is a small gamified student productivity dashboard built with plain HTML, CSS, and JavaScript.
+TimeFlow is a small gamified student productivity dashboard built with plain HTML, CSS, and JavaScript.
 
 ## Files
 
